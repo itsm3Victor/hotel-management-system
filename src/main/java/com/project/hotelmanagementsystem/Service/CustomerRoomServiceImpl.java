@@ -4,10 +4,12 @@ import com.project.hotelmanagementsystem.Entity.Restaurant;
 import com.project.hotelmanagementsystem.Repository.CustomerRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class CustomerRoomServiceImpl implements CustomerRoomService{
     @Autowired
     private CustomerRoomRepository customerRoomRepository;

@@ -1,41 +1,38 @@
 package com.project.hotelmanagementsystem.GUI;
 
 import com.project.hotelmanagementsystem.Entity.Customer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import java.awt.Font;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import java.awt.Color;
+import java.awt.event.ActionListener;
 
 @Component
 public class AdminForm extends JFrame {
+    @Autowired
+    private ApplicationContext context;
     private JPanel contentPane;
     Customer cust = new Customer();
 
     /**
      * Launch the application.
      */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    AdminForm frame = new AdminForm();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+//    public static void main(String[] args) {
+//        EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                try {
+//                    AdminForm frame = context.getBean(AdminForm.class);
+//                    frame.setVisible(true);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//    }
 
     /**
      * Create the frame.
@@ -52,7 +49,7 @@ public class AdminForm extends JFrame {
         btnDelete.setIcon(new ImageIcon("images\\bed (1).png"));
         btnDelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AddRooms ar = new AddRooms();
+                AddRooms ar = context.getBean(AddRooms.class);
                 //RestaurantForm rf = new RestaurantForm();
                 ar.setVisible(true);
                 ar.pack();
@@ -69,11 +66,11 @@ public class AdminForm extends JFrame {
         btnNewButton_2.setIcon(new ImageIcon("images\\dining (2).png"));
         btnNewButton_2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AddDishes ad = new AddDishes();
+                AddDishes ad = context.getBean(AddDishes.class);
                 ad.setVisible(true);
                 ad.pack();
                 ad.setLocationRelativeTo(null);
-                ad.setBounds(50,50, 965, 577);
+                ad.setBounds(50, 50, 965, 577);
                 setVisible(false);
             }
         });
@@ -99,11 +96,11 @@ public class AdminForm extends JFrame {
         JButton btnBack = new JButton("BACK");
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                secondPage sp = new secondPage();
+                SecondPage sp = context.getBean(SecondPage.class);
                 sp.setVisible(true);
                 sp.pack();
                 sp.setLocationRelativeTo(null);
-                sp.setBounds(50,50, 965, 577);
+                sp.setBounds(50, 50, 965, 577);
                 setVisible(false);
             }
         });

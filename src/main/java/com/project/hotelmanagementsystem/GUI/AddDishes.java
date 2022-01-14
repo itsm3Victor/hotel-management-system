@@ -2,38 +2,29 @@ package com.project.hotelmanagementsystem.GUI;
 
 import com.project.hotelmanagementsystem.Entity.Restaurant;
 import com.project.hotelmanagementsystem.Service.AddDishesService;
+import com.sun.tools.javac.util.Context;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.util.List;
-import javax.swing.ImageIcon;
 
 @Component
 public class AddDishes extends JFrame {
     @Autowired
     private AddDishesService addDishesService;
+    @Autowired
+    private ApplicationContext context;
 
     private JPanel contentPane;
     private JTextField d1;
@@ -44,18 +35,18 @@ public class AddDishes extends JFrame {
     /**
      * Launch the application.
      */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    AddDishes frame = new AddDishes();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+//    public static void main(String[] args) {
+//        EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                try {
+//                    AddDishes frame = new AddDishes();
+//                    frame.setVisible(true);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//    }
 
     /**
      * Create the frame.
@@ -153,7 +144,7 @@ public class AddDishes extends JFrame {
         btnBack.setIcon(new ImageIcon("images\\back.png"));
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AdminForm af = new AdminForm();
+                AdminForm af = context.getBean(AdminForm.class);
                 af.setVisible(true);
                 af.pack();
                 af.setLocationRelativeTo(null);
@@ -186,8 +177,7 @@ public class AddDishes extends JFrame {
         contentPane.add(lblNewLabel_1);
     }
 
-    public void displayDishes()
-    {
+    public void displayDishes() {
 
 //        GetConnection connect=new GetConnection();
 //        Connection conn=connect.getConnection();
@@ -203,14 +193,14 @@ public class AddDishes extends JFrame {
 //            Statement st= conn.createStatement();
 //            ResultSet rs= st.executeQuery(query);
             int currentIndex = 0;
-            while(currentIndex < restaurantList.size()){
-                model.addRow(new Object[] {
+            while (currentIndex < restaurantList.size()) {
+                model.addRow(new Object[]{
                         restaurantList.get(currentIndex).getItemNo(),
                         restaurantList.get(currentIndex).getItemName(),
                         restaurantList.get(currentIndex).getType(),
                         restaurantList.get(currentIndex).getPrice()
                 });
-                currentIndex ++;
+                currentIndex++;
             }
 //            while(rs.next())
 //            {
@@ -233,18 +223,14 @@ public class AddDishes extends JFrame {
             table.getColumnModel().getColumn(3).setPreferredWidth(90);
 
 
-        }
-
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
 
-    public void addDishes()
-    {
+    public void addDishes() {
 //        PreparedStatement ps = null;
 //        ResultSet result = null;
         try {
@@ -263,22 +249,18 @@ public class AddDishes extends JFrame {
 //            }
             JOptionPane.showMessageDialog(null, "New Dish Added");
 
-        }
-
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    public void updateDishes()
-    {
+    public void updateDishes() {
         PreparedStatement ps = null;
         ResultSet result = null;
         try {
-            int i =table.getSelectedRow();
-            DefaultTableModel model = (DefaultTableModel)table.getModel();
-            String no= model.getValueAt(i, 0).toString();
+            int i = table.getSelectedRow();
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            String no = model.getValueAt(i, 0).toString();
             System.out.println(no);
 
             addDishesService.updateDishes(d1.getText(), d2.getText(), d3.getText(), no);
@@ -297,22 +279,18 @@ public class AddDishes extends JFrame {
 //            }
             JOptionPane.showMessageDialog(null, " Dish Updated ");
 
-        }
-
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    public void deleteDishes()
-    {
+    public void deleteDishes() {
 //        PreparedStatement ps = null;
 //        ResultSet result = null;
         try {
-            int i =table.getSelectedRow();
-            DefaultTableModel model = (DefaultTableModel)table.getModel();
-            String no= model.getValueAt(i, 0).toString();
+            int i = table.getSelectedRow();
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            String no = model.getValueAt(i, 0).toString();
             System.out.println(no);
             addDishesService.deleteDishes(no);
 //            GetConnection connect=new GetConnection();
@@ -328,10 +306,7 @@ public class AddDishes extends JFrame {
 //            }
             JOptionPane.showMessageDialog(null, " Dish Deleted ");
 
-        }
-
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

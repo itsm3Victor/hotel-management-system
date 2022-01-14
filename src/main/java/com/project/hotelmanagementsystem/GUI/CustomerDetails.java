@@ -5,15 +5,12 @@ import com.project.hotelmanagementsystem.Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.awt.BorderLayout;
 import javax.swing.table.DefaultTableModel;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Font;
@@ -25,9 +22,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
@@ -53,18 +47,18 @@ public class CustomerDetails extends JFrame {
     /**
      * Launch the application.
      */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    CustomerDetails frame = new CustomerDetails();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+//    public static void main(String[] args) {
+//        EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                try {
+//                    CustomerDetails frame = new CustomerDetails();
+//                    frame.setVisible(true);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//    }
 
     /**
      * Create the frame.
@@ -248,7 +242,7 @@ public class CustomerDetails extends JFrame {
         btnBack.setIcon(new ImageIcon("images\\back.png"));
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                secondPage pg = new secondPage();
+                SecondPage pg = new SecondPage();
                 pg.setVisible(true);
                 pg.pack();
                 pg.setLocationRelativeTo(null);

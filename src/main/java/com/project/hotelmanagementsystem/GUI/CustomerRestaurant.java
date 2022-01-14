@@ -5,9 +5,9 @@ import com.project.hotelmanagementsystem.Exception.MyException;
 import com.project.hotelmanagementsystem.Service.AddRoomsService;
 import com.project.hotelmanagementsystem.Service.CustomerRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.awt.EventQueue;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -37,10 +37,10 @@ import java.util.List;
 @Component
 public class CustomerRestaurant extends JFrame {
     @Autowired
-    CustomerRestaurantService customerRestaurantService;
+    private CustomerRestaurantService customerRestaurantService;
 
     @Autowired
-    AddRoomsService addRoomsService;
+    private AddRoomsService addRoomsService;
 
     private JPanel contentPane;
     private JTextField name;
@@ -67,21 +67,21 @@ public class CustomerRestaurant extends JFrame {
     SimpleDateFormat sf = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
     Date dt= new Date();
     private JLabel label;
-    /**
+    /**login
      * Launch the application.
      */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    CustomerRestaurant frame = new CustomerRestaurant();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+//    public static void main(String[] args) {
+//        EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                try {
+//                    CustomerRestaurant frame = new CustomerRestaurant();
+//                    frame.setVisible(true);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//    }
 
     /**
      * Create the frame.
@@ -237,7 +237,7 @@ public class CustomerRestaurant extends JFrame {
                 if (flag==0)
                     JOptionPane.showMessageDialog(null, "First you need to generate receipt");
                 else {
-                    secondPage sp = new secondPage();
+                    SecondPage sp = new SecondPage();
                     sp.setVisible(true);
                     sp.pack();
                     sp.setLocationRelativeTo(null);
@@ -361,7 +361,7 @@ public class CustomerRestaurant extends JFrame {
         label.setBounds(0, 0, 1218, 212);
         contentPane.add(label);
     }
-
+    @Scheduled(fixedRate = 3600000, initialDelay=180000)
     public void displayRooms()
     {
 //        GetConnection connect=new GetConnection();

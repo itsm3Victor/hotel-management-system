@@ -3,6 +3,7 @@ package com.project.hotelmanagementsystem.GUI;
 import com.project.hotelmanagementsystem.Entity.room;
 import com.project.hotelmanagementsystem.Service.AddRoomsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.awt.EventQueue;
@@ -31,6 +32,8 @@ import javax.swing.ImageIcon;
 public class AddRooms extends JFrame {
     @Autowired
     private AddRoomsService addRoomsService;
+    @Autowired
+    private ApplicationContext context;
 
     private JPanel contentPane;
     private JTable table;
@@ -41,18 +44,18 @@ public class AddRooms extends JFrame {
     /**
      * Launch the application.
      */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    AddRooms frame = new AddRooms();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+//    public static void main(String[] args) {
+//        EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                try {
+//                    AddRooms frame = new AddRooms();
+//                    frame.setVisible(true);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//    }
 
     /**
      * Create the frame.
@@ -149,7 +152,7 @@ public class AddRooms extends JFrame {
         btnBack.setIcon(new ImageIcon("images\\back.png"));
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AdminForm af = new AdminForm();
+                AdminForm af = context.getBean(AdminForm.class);
                 af.setVisible(true);
                 af.pack();
                 af.setLocationRelativeTo(null);
