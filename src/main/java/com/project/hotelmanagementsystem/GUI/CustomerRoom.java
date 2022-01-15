@@ -2,13 +2,8 @@ package com.project.hotelmanagementsystem.GUI;
 
 import com.project.hotelmanagementsystem.Entity.Restaurant;
 import com.project.hotelmanagementsystem.Exception.MyException;
-import com.project.hotelmanagementsystem.Service.CustomerRestaurantService;
 import com.project.hotelmanagementsystem.Service.CustomerRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,12 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import java.awt.TextArea;
-import java.sql.Connection;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 
 import javax.swing.JTextField;
@@ -41,7 +31,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.ImageIcon;
 
-@Component
+//@Component
 public class CustomerRoom extends JFrame{
     @Autowired
     CustomerRoomService  customerRoomService;
@@ -65,21 +55,21 @@ public class CustomerRoom extends JFrame{
     Date dt= new Date();
     int flag=0;
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    CustomerRoom frame = new CustomerRoom();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+//    /**
+//     * Launch the application.
+//     */
+//    public static void main(String[] args) {
+//        EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                try {
+//                    CustomerRoom frame = new CustomerRoom();
+//                    frame.setVisible(true);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//    }
 
     /**
      * Create the frame.
@@ -311,7 +301,7 @@ public class CustomerRoom extends JFrame{
                 if(flag==0)
                     JOptionPane.showMessageDialog(null, "First you need to generate receipt");
                 else {
-                    secondPage sp = new secondPage();
+                    SecondPage sp = new SecondPage();
                     sp.setVisible(true);
                     sp.pack();
                     sp.setLocationRelativeTo(null);

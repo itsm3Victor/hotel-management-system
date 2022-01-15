@@ -2,6 +2,7 @@ package com.project.hotelmanagementsystem.GUI;
 
 import com.project.hotelmanagementsystem.Entity.Hotel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.awt.BorderLayout;
@@ -24,33 +25,35 @@ import java.awt.Color;
 import javax.swing.JTextField;
 
 @Component
-public class secondPage extends JFrame{
+public class SecondPage extends JFrame{
 //    @Autowired
 //    private Hotel hotel;
 
     private JPanel contentPane;
+    @Autowired
+    private ApplicationContext context;
 
     /**
      * Launch the application.
      */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            Hotel hotel = Hotel.getInstance();
-            public void run() {
-                try {
-                    secondPage frame = new secondPage();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+//    public static void main(String[] args) {
+//        EventQueue.invokeLater(new Runnable() {
+//            Hotel hotel = Hotel.getInstance();
+//            public void run() {
+//                try {
+//                    secondPage frame = new secondPage();
+//                    frame.setVisible(true);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//    }
 
     /**
      * Create the frame.
      */
-    public secondPage() {
+    public SecondPage() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(0, 0, 1015, 574);
         contentPane = new JPanel();
@@ -78,7 +81,7 @@ public class secondPage extends JFrame{
 
                 if(comboBox.getSelectedItem()=="RESTAURANT")
                 {
-                    CustomerRoom cr = new CustomerRoom();
+                    CustomerRoom cr = context.getBean(CustomerRoom.class);
                     //RestaurantForm rf = new RestaurantForm();
                     cr.setVisible(true);
                     cr.pack();
@@ -89,7 +92,7 @@ public class secondPage extends JFrame{
 
                 else {
 
-                    CustomerRestaurant cg = new CustomerRestaurant();
+                    CustomerRestaurant cg = context.getBean(CustomerRestaurant.class);
                     //RestaurantForm rf = new RestaurantForm();
                     cg.setVisible(true);
                     cg.pack();
@@ -109,7 +112,7 @@ public class secondPage extends JFrame{
         btnAdmin.setIcon(new ImageIcon("images\\admin.png"));
         btnAdmin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AdminForm af = new AdminForm();
+                AdminForm af = context.getBean(AdminForm.class);
                 af.setVisible(true);
                 af.pack();
                 af.setLocationRelativeTo(null);

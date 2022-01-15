@@ -1,14 +1,11 @@
 package com.project.hotelmanagementsystem.GUI;
 
-import com.project.hotelmanagementsystem.Entity.Hotel;
 import com.project.hotelmanagementsystem.Entity.room;
-import com.project.hotelmanagementsystem.HotelManagementSystemApplication;
 import com.project.hotelmanagementsystem.Service.AAService;
 import com.project.hotelmanagementsystem.Service.AddRoomsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,20 +16,17 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.util.List;
 import javax.swing.ImageIcon;
 
 @Component
-public class loginPage extends JFrame {
+public class LoginPage extends JFrame {
 //    @Autowired
 //    private Hotel hotel;
+    @Autowired
+    private ApplicationContext context;
 
     @Autowired
     private AAService aaService;
@@ -45,28 +39,28 @@ public class loginPage extends JFrame {
     private JPasswordField tfpwd;
     JLabel Ustar = new JLabel("*");
     JLabel Pstar = new JLabel("*");
+//
+//    /**
+//     * Launch the application.
+//     */
+//    public static void main(String args[]) {
+//
+//        EventQueue.invokeLater(new Runnable() {
+//            Hotel hotel = Hotel.getInstance();
+//
+//            public void run() {
+//                try {
+//
+//                    loginPage window = new loginPage();
+//                    window.frame.setVisible(true);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//    }
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String args[]) {
-
-        EventQueue.invokeLater(new Runnable() {
-            Hotel hotel = Hotel.getInstance();
-
-            public void run() {
-                try {
-
-                    loginPage window = new loginPage();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    public loginPage() {
+    public LoginPage() {
 //        main();
 //        Hotel hotel = Hotel.getInstance();
 //        frame.setVisible(true);
@@ -151,7 +145,7 @@ public class loginPage extends JFrame {
 //
 //                        ResultSet rs = ps.executeQuery();
                         if (rs != null) {
-                            secondPage sp = new secondPage();
+                            SecondPage sp = context.getBean(SecondPage.class);
 
                             sp.setVisible(true);
                             sp.pack();

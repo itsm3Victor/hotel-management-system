@@ -1,24 +1,15 @@
 package com.project.hotelmanagementsystem;
 
-import com.project.hotelmanagementsystem.Entity.Hotel;
-import com.project.hotelmanagementsystem.GUI.CustomerRestaurant;
-import com.project.hotelmanagementsystem.GUI.loginPage;
-import com.project.hotelmanagementsystem.GUI.secondPage;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import com.project.hotelmanagementsystem.GUI.LoginPage;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import javax.swing.*;
-import java.awt.*;
 
 //import javax.swing.JButton;
 //import javax.swing.JFrame;
-
 
 
 //@ComponentScan
@@ -27,16 +18,15 @@ import java.awt.*;
 //@ComponentScan({"com.project.hotelmanagementsystem.HotelManagementSystemApplication","com.project.hotelmanagementsystem.GUI.AddRooms","com.project.hotelmanagementsystem.GUI.AddDishes","com.project.hotelmanagementsystem.GUI.AdminForm","com.project.hotelmanagementsystem.GUI.CustomerDetails","com.project.hotelmanagementsystem.GUI.CustomerRestaurant","com.project.hotelmanagementsystem.GUI.CustomerRoom","com.project.hotelmanagementsystem.GUI.loginPage","com.project.hotelmanagementsystem.GUI.secondPage"})
 //@ComponentScan(basePackages = "com.project.hotelmanagementsystem.GUI")
 @SpringBootApplication
-public class HotelManagementSystemApplication{
-//	public static ApplicationContext applicationContext;
+public class HotelManagementSystemApplication {
+    //	public static ApplicationContext applicationContext;
 //	@Autowired
 //	AATesting testing;
-	public static void main(String[] args) {
-//		SpringApplication.run(HotelManagementSystemApplication.class, args);
+    public static void main(String[] args) {
 
 
-		ApplicationContext context = new SpringApplicationBuilder(HotelManagementSystemApplication.class)
-				.headless(false).run(args);
+        ApplicationContext context = new SpringApplicationBuilder(HotelManagementSystemApplication.class)
+                .headless(false).run(args);
 
 
 //		ApplicationContext applicationContext =
@@ -64,7 +54,8 @@ public class HotelManagementSystemApplication{
 //		a.setLocationRelativeTo(null);
 //		a.setBounds(50, 50, 1015, 574);
 //		a.initialize();
-	}
-
-
+    }
 }
+
+
+
