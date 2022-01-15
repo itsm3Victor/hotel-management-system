@@ -1,12 +1,8 @@
 package com.project.hotelmanagementsystem.GUI;
 
-import com.project.hotelmanagementsystem.Entity.Hotel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,14 +14,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Color;
-import javax.swing.JTextField;
 
 @Component
-public class SecondPage extends JFrame{
+public class Dashboard extends JFrame{
 //    @Autowired
 //    private Hotel hotel;
 
@@ -53,7 +47,7 @@ public class SecondPage extends JFrame{
     /**
      * Create the frame.
      */
-    public SecondPage() {
+    public Dashboard() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(0, 0, 1015, 574);
         contentPane = new JPanel();
@@ -81,7 +75,7 @@ public class SecondPage extends JFrame{
 
                 if(comboBox.getSelectedItem()=="RESTAURANT")
                 {
-                    CustomerRoom cr = context.getBean(CustomerRoom.class);
+                    CustomerRestaurant cr = context.getBean(CustomerRestaurant.class);
                     //RestaurantForm rf = new RestaurantForm();
                     cr.setVisible(true);
                     cr.pack();
@@ -92,7 +86,7 @@ public class SecondPage extends JFrame{
 
                 else {
 
-                    CustomerRestaurant cg = context.getBean(CustomerRestaurant.class);
+                    CustomerRoom cg = context.getBean(CustomerRoom.class);
                     //RestaurantForm rf = new RestaurantForm();
                     cg.setVisible(true);
                     cg.pack();
@@ -103,13 +97,13 @@ public class SecondPage extends JFrame{
 
             }
         });
-        btnNewButton.setIcon(new ImageIcon("images\\dining (1).png"));
+        btnNewButton.setIcon(new ImageIcon("src\\main\\resources\\images\\dining (1).png"));
         btnNewButton.setBounds(53, 174, 408, 197);
         contentPane.add(btnNewButton);
 
         JButton btnAdmin = new JButton("ADMIN");
         btnAdmin.setFont(new Font("High Tower Text", Font.BOLD, 30));
-        btnAdmin.setIcon(new ImageIcon("images\\admin.png"));
+        btnAdmin.setIcon(new ImageIcon("src\\main\\resources\\images\\admin.png"));
         btnAdmin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 AdminForm af = context.getBean(AdminForm.class);
@@ -124,7 +118,7 @@ public class SecondPage extends JFrame{
         contentPane.add(btnAdmin);
 
         JLabel lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon("images\\bb.jpg"));
+        lblNewLabel.setIcon(new ImageIcon("src\\main\\resources\\images\\bb.jpg"));
         lblNewLabel.setBounds(0, 0, 997, 220);
         contentPane.add(lblNewLabel);
 

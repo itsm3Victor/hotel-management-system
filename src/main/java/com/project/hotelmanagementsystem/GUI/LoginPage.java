@@ -1,8 +1,8 @@
 package com.project.hotelmanagementsystem.GUI;
 
-import com.project.hotelmanagementsystem.Entity.room;
-import com.project.hotelmanagementsystem.Service.AAService;
-import com.project.hotelmanagementsystem.Service.AddRoomsService;
+import com.project.hotelmanagementsystem.Entity.Hotel;
+import com.project.hotelmanagementsystem.Service.LoginService;
+import com.project.hotelmanagementsystem.Service.ManageRoomsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,6 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
-import java.util.List;
 import javax.swing.ImageIcon;
 
 @Component
@@ -29,10 +28,10 @@ public class LoginPage extends JFrame {
     private ApplicationContext context;
 
     @Autowired
-    private AAService aaService;
+    private LoginService loginService;
 
     @Autowired
-    private AddRoomsService addRoomsService;
+    private ManageRoomsService manageRoomsService;
 
     private JFrame frame;
     private JTextField tfusername;
@@ -62,7 +61,7 @@ public class LoginPage extends JFrame {
 
     public LoginPage() {
 //        main();
-//        Hotel hotel = Hotel.getInstance();
+        Hotel hotel = Hotel.getInstance();
 //        frame.setVisible(true);
         initialize();
         Ustar.setVisible(false);
@@ -127,16 +126,7 @@ public class LoginPage extends JFrame {
                     try {
                         // Connection connect =DriverManager.getConnection(url, user, pwd);
                         // System.out.println("Connection success");
-                        String rs = aaService.loginVerificationService(tfusername.getText(), String.valueOf(tfpwd.getPassword()));
-                        List<room> roomList = addRoomsService.displayRooms();
-                        for(int i = 0; i < roomList.size(); i ++){
-                            System.out.print(roomList.get(i).Price);
-                            System.out.print(roomList.get(i).roomno);
-                            System.out.print(roomList.get(i).bedtype);
-                            System.out.print(roomList.get(i).roomType);
-                            System.out.print(roomList.get(i).status);
-                            System.out.println();
-                        }
+                        String rs = loginService.loginVerificationService(tfusername.getText(), String.valueOf(tfpwd.getPassword()));
 
 //                        PreparedStatement ps = conn
 //                                .prepareStatement("SELECT * FROM login WHERE username= ? AND password=? ");
@@ -145,7 +135,7 @@ public class LoginPage extends JFrame {
 //
 //                        ResultSet rs = ps.executeQuery();
                         if (rs != null) {
-                            SecondPage sp = context.getBean(SecondPage.class);
+                            Dashboard sp = context.getBean(Dashboard.class);
 
                             sp.setVisible(true);
                             sp.pack();
@@ -190,7 +180,7 @@ public class LoginPage extends JFrame {
         frame.getContentPane().add(Pstar);
 
         JLabel label = new JLabel("");
-        label.setIcon(new ImageIcon("C:\\Users\\user\\Desktop\\hotel-management-system\\src\\main\\resources\\images\\login (8).png"));
+        label.setIcon(new ImageIcon("src\\main\\resources\\images\\login (8).png"));
         label.setBounds(12, 234, 314, 283);
         frame.getContentPane().add(label);
 

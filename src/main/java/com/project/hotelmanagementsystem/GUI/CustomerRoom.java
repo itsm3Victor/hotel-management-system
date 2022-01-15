@@ -1,68 +1,81 @@
 package com.project.hotelmanagementsystem.GUI;
 
-import com.project.hotelmanagementsystem.Entity.Restaurant;
 import com.project.hotelmanagementsystem.Exception.MyException;
+import com.project.hotelmanagementsystem.Service.ManageRoomsService;
 import com.project.hotelmanagementsystem.Service.CustomerRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.Font;
-
-import java.text.SimpleDateFormat;
-
 import javax.swing.JTextField;
-import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.JTextArea;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JButton;
+//import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Color;
-import java.util.Date;
-import java.util.List;
+import java.awt.Font;
+import javax.swing.JTextArea;
 import javax.swing.ImageIcon;
+import java.awt.Color;
 
-//@Component
-public class CustomerRoom extends JFrame{
+@Component
+public class CustomerRoom extends JFrame {
     @Autowired
-    CustomerRoomService  customerRoomService;
+    private ApplicationContext context;
+
+    @Autowired
+    private CustomerRoomService customerRoomService;
+
+    @Autowired
+    private ManageRoomsService manageRoomsService;
 
     private JPanel contentPane;
     private JTextField name;
     private JTextField addr;
     private JTextField phone;
-    private JTextField meal;
-    private JTextField drink;
-    JComboBox comboBox_Dish = new JComboBox();
-    JComboBox comboBox_Drink = new JComboBox();
+    private JTextField roomtype;
+    private JTextField bedtype;
+    private JTextField price;
     private JTable table;
-    private JTable table_1;
-    JTextArea area = new JTextArea();
-    private JTextField totalA;
-    JLabel a1 = new JLabel("*");
-    JLabel a2 = new JLabel("*");
-    JLabel a3 = new JLabel("*");
+    private JScrollPane scrollPane;
+    private JButton btnGenerateReceipt;
+    private JButton btnBack;
+    private JButton btnCheckout;
+    private JTextField days;
+    private JLabel lblTotal;
+    private JTextField tot;
+    private JTextArea textArea;
+    int flag =0;
+    private JLabel a1;
+    private JLabel a2;
+    private JLabel a3;
+    private JLabel lblRoomNo;
+    private JTextField rno;
     SimpleDateFormat sf = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
     Date dt= new Date();
-    int flag=0;
-
-//    /**
-//     * Launch the application.
-//     */
+    private JLabel label;
+    /**login
+     * Launch the application.
+     */
 //    public static void main(String[] args) {
 //        EventQueue.invokeLater(new Runnable() {
 //            public void run() {
 //                try {
-//                    CustomerRoom frame = new CustomerRoom();
+//                    CustomerRestaurant frame = new CustomerRestaurant();
 //                    frame.setVisible(true);
 //                } catch (Exception e) {
 //                    e.printStackTrace();
@@ -75,151 +88,200 @@ public class CustomerRoom extends JFrame{
      * Create the frame.
      */
     public CustomerRoom() {
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(WindowEvent e) {
-                FillDishes();
-                FillDrinks();
+                customerRoomService.displayRooms(table);
+//                displayRooms();
                 a1.setVisible(false);
                 a2.setVisible(false);
                 a3.setVisible(false);
+
             }
         });
-
-        FillCombo();
-        //FillDishes();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(0, 0, 1367, 772);
+        setBounds(0, 0, 1236, 700);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        JLabel lblArizonaTea = new JLabel("NAME");
-        lblArizonaTea.setFont(new Font("High Tower Text", Font.BOLD, 21));
-        lblArizonaTea.setBounds(34, 299, 104, 26);
-        contentPane.add(lblArizonaTea);
+        JLabel lblName = new JLabel("NAME ");
+        lblName.setForeground(new Color(255, 255, 255));
+        lblName.setFont(new Font("High Tower Text", Font.BOLD, 20));
+        lblName.setBounds(32, 142, 107, 32);
+        contentPane.add(lblName);
 
-        JLabel lblPinaColada = new JLabel("SELECT DRINK");
-        lblPinaColada.setFont(new Font("High Tower Text", Font.BOLD, 21));
-        lblPinaColada.setBounds(22, 199, 183, 26);
-        contentPane.add(lblPinaColada);
+        JLabel lblAddress = new JLabel("ADDRESS");
+        lblAddress.setForeground(new Color(255, 255, 255));
+        lblAddress.setFont(new Font("High Tower Text", Font.BOLD, 20));
+        lblAddress.setBounds(32, 187, 107, 25);
+        contentPane.add(lblAddress);
+
+        JLabel lblPhoneNum = new JLabel("PHONE NUM ");
+        lblPhoneNum.setFont(new Font("High Tower Text", Font.BOLD, 20));
+        lblPhoneNum.setBounds(25, 229, 164, 25);
+        contentPane.add(lblPhoneNum);
+
+        JLabel lblRoomType = new JLabel("ROOM TYPE");
+        lblRoomType.setFont(new Font("High Tower Text", Font.BOLD, 20));
+        lblRoomType.setBounds(32, 343, 134, 32);
+        contentPane.add(lblRoomType);
+
+        JLabel lblBedType = new JLabel("BED TYPE");
+        lblBedType.setFont(new Font("High Tower Text", Font.BOLD, 20));
+        lblBedType.setBounds(27, 403, 123, 25);
+        contentPane.add(lblBedType);
+
+        JLabel lblPrice = new JLabel("PRICE");
+        lblPrice.setFont(new Font("High Tower Text", Font.BOLD, 20));
+        lblPrice.setBounds(32, 461, 107, 35);
+        contentPane.add(lblPrice);
 
         name = new JTextField();
-        name.setFont(new Font("High Tower Text", Font.BOLD, 21));
-        name.setBounds(213, 295, 255, 34);
+        name.setFont(new Font("High Tower Text", Font.BOLD, 20));
+        name.setBounds(201, 142, 197, 32);
         contentPane.add(name);
         name.setColumns(10);
-        String Name = name.getText();
-
-
-        JLabel lblNewLabel = new JLabel("ADDRESS");
-        lblNewLabel.setFont(new Font("High Tower Text", Font.BOLD, 21));
-        lblNewLabel.setBounds(34, 360, 165, 21);
-        contentPane.add(lblNewLabel);
-
-        JLabel lblEspresso = new JLabel("PHONE NUM");
-        lblEspresso.setFont(new Font("High Tower Text", Font.BOLD, 21));
-        lblEspresso.setBounds(34, 414, 165, 21);
-        contentPane.add(lblEspresso);
 
         addr = new JTextField();
         addr.setFont(new Font("High Tower Text", Font.BOLD, 20));
-        addr.setBounds(213, 353, 255, 34);
+        addr.setBounds(201, 187, 197, 32);
         contentPane.add(addr);
         addr.setColumns(10);
 
         phone = new JTextField();
         phone.setFont(new Font("High Tower Text", Font.BOLD, 20));
-        phone.setBounds(213, 407, 255, 34);
+        phone.setBounds(201, 225, 197, 32);
         contentPane.add(phone);
         phone.setColumns(10);
 
-        JLabel lblTotal = new JLabel("COST OF MEAL");
-        lblTotal.setFont(new Font("High Tower Text", Font.BOLD, 21));
-        lblTotal.setBounds(33, 501, 192, 34);
-        contentPane.add(lblTotal);
+        roomtype = new JTextField();
+        roomtype.setFont(new Font("High Tower Text", Font.BOLD, 20));
+        roomtype.setBounds(201, 343, 197, 32);
+        contentPane.add(roomtype);
+        roomtype.setColumns(10);
 
-        meal = new JTextField();
-        meal.setFont(new Font("High Tower Text", Font.PLAIN, 20));
-        meal.setBounds(233, 501, 140, 34);
-        contentPane.add(meal);
-        meal.setColumns(10);
+        bedtype = new JTextField();
+        bedtype.setFont(new Font("High Tower Text", Font.BOLD, 20));
+        bedtype.setBounds(201, 399, 197, 32);
+        contentPane.add(bedtype);
+        bedtype.setColumns(10);
 
-        JLabel lblCostOfDrinks = new JLabel("COST OF DRINKS");
-        lblCostOfDrinks.setFont(new Font("High Tower Text", Font.BOLD, 21));
-        lblCostOfDrinks.setBounds(22, 561, 207, 26);
-        contentPane.add(lblCostOfDrinks);
+        price = new JTextField();
+        price.setFont(new Font("High Tower Text", Font.BOLD, 20));
+        price.setBounds(201, 456, 197, 32);
+        contentPane.add(price);
+        price.setColumns(10);
 
-        drink = new JTextField();
-        drink.setFont(new Font("High Tower Text", Font.PLAIN, 20));
-        drink.setBounds(233, 557, 140, 34);
-        contentPane.add(drink);
-        drink.setColumns(10);
+        scrollPane =new JScrollPane();
+        scrollPane.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int i =table.getSelectedRow();
+                DefaultTableModel model = (DefaultTableModel)table.getModel();
+                rno.setText(model.getValueAt(i, 0).toString());
+                roomtype.setText(model.getValueAt(i, 1).toString());
+                bedtype.setText(model.getValueAt(i,2).toString());
+                price.setText(model.getValueAt(i,3).toString());
 
-        JLabel lblSelectDish = new JLabel("SELECT DISH");
-        lblSelectDish.setForeground(new Color(255, 255, 255));
-        lblSelectDish.setFont(new Font("High Tower Text", Font.BOLD, 20));
-        lblSelectDish.setBounds(34, 128, 181, 22);
-        contentPane.add(lblSelectDish);
 
-        //JComboBox comboBox_Dish = new JComboBox();
-        comboBox_Dish.setFont(new Font("High Tower Text", Font.BOLD, 21));
-        comboBox_Dish.setBounds(213, 122, 281, 34);
-        contentPane.add(comboBox_Dish);
+            }
+        });
+        scrollPane.setBounds(427, 173, 419, 408);
+        contentPane.add(scrollPane);
 
-        //JComboBox comboBox_Drink = new JComboBox();
-        comboBox_Drink.setFont(new Font("High Tower Text", Font.BOLD, 21));
-        comboBox_Drink.setBounds(215, 195, 268, 34);
-        contentPane.add(comboBox_Drink);
+        table = new JTable();
+        scrollPane.setViewportView(table);
 
-        JButton btnGenerateReceipt = new JButton("GENERATE RECEIPT");
+        btnGenerateReceipt = new JButton("GENERATE RECEIPT");
+        btnGenerateReceipt.setFont(new Font("High Tower Text", Font.BOLD, 20));
         btnGenerateReceipt.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-
-
-
                 if(name.getText().equals(""))
                 {
                     a1.setVisible(true);
                 }
-                if(addr.getText().equals(""))
+                else if(addr.getText().equals(""))
                 {
                     a2.setVisible(true);
                 }
-                if(addr.getText().equals(""))
+                else if(phone.getText().equals(""))
                 {
                     a3.setVisible(true);
                 }
-
                 else {
-                    sf.format(dt);
-                    calculateAmount();
-                    area.setText("***********************************************\n");
-                    area.setText(area.getText()+"***               YOUR BILL RECEIPT        	    ***\n");
-                    area.setText(area.getText()+"***********************************************\n\n");
-                    area.setText(area.getText()+"TIME     : "+sf.format(dt)+"\n\n");
-                    area.setText(area.getText()+"NAME     :    "+name.getText()+"\n\n");
-                    area.setText(area.getText()+"ADDRESS  :    "+addr.getText()+"\n\n");
-                    area.setText(area.getText()+"PHONE NUM  :    "+phone.getText()+"\n\n");
-                    area.setText(area.getText()+"ORDERED DISH  : "+comboBox_Dish.getSelectedItem()+"\n\n");
-                    area.setText(area.getText()+"ORDERED DRINK  : "+comboBox_Drink.getSelectedItem()+"\n\n");
-                    area.setText(area.getText()+"TOTAL AMOUNT   :   "+totalA.getText()+"\n\n");
-                    ///////////////////////////area.setText(area.getText()+"COST OF MEAL : "+drink.getText()+"\n\n");
 
-                    addToDatabase();
+                    customerRoomService.calculateTotal(days, price, tot);
+                    textArea.setText("**************************************************************************\n");
+                    textArea.setText(textArea.getText()+"******      	    YOUR BILL RECEIPT      	     ******\n");
+                    textArea.setText(textArea.getText()+"*************************************************************************\n\n");
+                    textArea.setText(textArea.getText()+"TIME     : "+sf.format(dt)+"\n\n");
+
+                    textArea.setText(textArea.getText()+"NAME     :    "+name.getText()+"\n\n");
+                    textArea.setText(textArea.getText()+"ADDRESS  :    "+addr.getText()+"\n\n");
+                    textArea.setText(textArea.getText()+"PHONE NUM  :    "+phone.getText()+"\n\n");
+                    textArea.setText(textArea.getText()+"ROOM TYPE  : "+roomtype.getText()+"\n\n");
+                    textArea.setText(textArea.getText()+"BED TYPE  : "+bedtype.getText()+"\n\n");
+                    textArea.setText(textArea.getText()+"TOTAL AMOUNT   :   "+tot.getText()+"\n\n");
+
+                    customerRoomService.addToDatabase(name, addr, phone, roomtype, bedtype, tot, "0");
                     flag=1;
                 }
             }
         });
-        btnGenerateReceipt.setFont(new Font("High Tower Text", Font.BOLD, 21));
-        btnGenerateReceipt.setBounds(257, 673, 281, 39);
+        btnGenerateReceipt.setBounds(215, 603, 264, 38);
         contentPane.add(btnGenerateReceipt);
 
+        btnBack = new JButton("BACK");
+        btnBack.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (flag==0)
+                    JOptionPane.showMessageDialog(null, "First you need to generate receipt");
+                else {
+                    Dashboard sp = context.getBean(Dashboard.class);
+//                    SecondPage sp = new SecondPage();
+                    sp.setVisible(true);
+                    sp.pack();
+                    sp.setLocationRelativeTo(null);
+                    sp.setBounds(100, 100, 1015, 574);
+                    setVisible(false);
+
+                }
+
+            }
+        });
+        btnBack.setFont(new Font("High Tower Text", Font.BOLD, 20));
+        btnBack.setBounds(536, 603, 141, 38);
+        contentPane.add(btnBack);
+
+        btnCheckout = new JButton("CHECKOUT");
+        btnCheckout.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                customerRoomService.checkOut(name);
+            }
+        });
+        btnCheckout.setFont(new Font("High Tower Text", Font.BOLD, 20));
+        btnCheckout.setBounds(726, 603, 184, 38);
+        contentPane.add(btnCheckout);
+
+        days = new JTextField();
+        days.setFont(new Font("High Tower Text", Font.BOLD, 20));
+        days.setBounds(201, 507, 197, 32);
+        contentPane.add(days);
+        days.setColumns(10);
+
+        JLabel lblNoOfDays = new JLabel("NO OF DAYS");
+        lblNoOfDays.setFont(new Font("High Tower Text", Font.BOLD, 20));
+        lblNoOfDays.setBounds(32, 511, 147, 25);
+        contentPane.add(lblNoOfDays);
+
         JButton btnTotal = new JButton("TOTAL");
+        btnTotal.setFont(new Font("High Tower Text", Font.BOLD, 20));
         btnTotal.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
                 try {
 
                     if(name.getText().equals(""))
@@ -240,7 +302,7 @@ public class CustomerRoom extends JFrame{
 
                     else
                     {
-                        calculateAmount();
+                        customerRoomService.calculateTotal(days, price, tot);
                     }
                 }
 
@@ -248,343 +310,59 @@ public class CustomerRoom extends JFrame{
                 {
                     JOptionPane.showMessageDialog(CustomerRoom.this, r);
                 }
+
             }
         });
-        btnTotal.setFont(new Font("High Tower Text", Font.BOLD, 21));
-        btnTotal.setBounds(45, 673, 154, 39);
+        btnTotal.setBounds(44, 605, 122, 35);
         contentPane.add(btnTotal);
 
-        JButton btnCheckout = new JButton("CHECKOUT");
-        btnCheckout.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                checkOut();
+        lblTotal = new JLabel("TOTAL");
+        lblTotal.setFont(new Font("High Tower Text", Font.BOLD, 20));
+        lblTotal.setBounds(32, 556, 107, 25);
+        contentPane.add(lblTotal);
 
-            }
-        });
-        btnCheckout.setFont(new Font("High Tower Text", Font.BOLD, 21));
-        btnCheckout.setBounds(608, 673, 207, 39);
-        contentPane.add(btnCheckout);
+        tot = new JTextField();
+        tot.setFont(new Font("High Tower Text", Font.BOLD, 20));
+        tot.setBounds(201, 552, 197, 32);
+        contentPane.add(tot);
+        tot.setColumns(10);
 
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(522, 88, 350, 280);
-        contentPane.add(scrollPane);
+        textArea = new JTextArea();
+        textArea.setBounds(858, 176, 348, 408);
+        contentPane.add(textArea);
 
-        table = new JTable();
-        scrollPane.setViewportView(table);
-
-        JScrollPane scrollPane_1 = new JScrollPane();
-        scrollPane_1.setBounds(522, 388, 350, 259);
-        contentPane.add(scrollPane_1);
-
-        table_1 = new JTable();
-        scrollPane_1.setViewportView(table_1);
-        area.setFont(new Font("High Tower Text", Font.PLAIN, 18));
-
-
-        area.setBounds(909, 190, 447, 470);
-        contentPane.add(area);
-
-        totalA = new JTextField();
-        totalA.setFont(new Font("High Tower Text", Font.BOLD, 20));
-        totalA.setBounds(231, 613, 142, 34);
-        contentPane.add(totalA);
-        totalA.setColumns(10);
-
-        JLabel lblTotalAmount = new JLabel("TOTAL");
-        lblTotalAmount.setFont(new Font("High Tower Text", Font.BOLD, 20));
-        lblTotalAmount.setBounds(73, 618, 126, 25);
-        contentPane.add(lblTotalAmount);
-
-        JButton btnBack = new JButton("BACK");
-        btnBack.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(flag==0)
-                    JOptionPane.showMessageDialog(null, "First you need to generate receipt");
-                else {
-                    SecondPage sp = new SecondPage();
-                    sp.setVisible(true);
-                    sp.pack();
-                    sp.setLocationRelativeTo(null);
-                    sp.setBounds(100, 100, 1015, 574);
-                    setVisible(false);
-                }
-
-            }
-        });
-        btnBack.setFont(new Font("High Tower Text", Font.BOLD, 20));
-        btnBack.setBounds(871, 673, 148, 39);
-        contentPane.add(btnBack);
-
-
-        a1.setForeground(Color.RED);
-        a1.setFont(new Font("Tahoma", Font.BOLD, 21));
-        a1.setBounds(473, 304, 21, 21);
+        a1 = new JLabel("*");
+        a1.setFont(new Font("Tahoma", Font.BOLD, 20));
+        a1.setForeground(new Color(255, 0, 0));
+        a1.setBounds(404, 143, 22, 25);
         contentPane.add(a1);
 
-
+        a2 = new JLabel("*");
         a2.setFont(new Font("Tahoma", Font.BOLD, 20));
         a2.setForeground(Color.RED);
-        a2.setBounds(473, 366, 21, 21);
+        a2.setBounds(404, 196, 22, 16);
         contentPane.add(a2);
 
-
+        a3 = new JLabel("*");
         a3.setForeground(Color.RED);
         a3.setFont(new Font("Tahoma", Font.BOLD, 20));
-        a3.setBounds(473, 419, 21, 16);
+        a3.setBounds(404, 230, 22, 16);
         contentPane.add(a3);
 
-        JLabel label = new JLabel("");
-        label.setIcon(new ImageIcon("images\\41.jpg"));
-        label.setBounds(0, 0, 1385, 187);
+        lblRoomNo = new JLabel("ROOM NO");
+        lblRoomNo.setFont(new Font("High Tower Text", Font.BOLD, 20));
+        lblRoomNo.setBounds(32, 286, 147, 29);
+        contentPane.add(lblRoomNo);
+
+        rno = new JTextField();
+        rno.setFont(new Font("High Tower Text", Font.BOLD, 20));
+        rno.setBounds(199, 284, 199, 32);
+        contentPane.add(rno);
+        rno.setColumns(10);
+
+        label = new JLabel("");
+        label.setIcon(new ImageIcon("src\\main\\resources\\images\\jk1.jpg"));
+        label.setBounds(0, 0, 1218, 212);
         contentPane.add(label);
-    }
-
-    private void FillCombo(){
-//    {  PreparedStatement ps = null;
-//        ResultSet result = null;
-//        PreparedStatement ps1 = null;
-//        ResultSet result1 = null;
-        try {
-            List<Restaurant> fillComboList1 = customerRoomService.FillCombo1();
-//            GetConnection connect=new GetConnection();
-//            Connection conn=connect.getConnection();
-//
-//            String sql = "SELECT * FROM restaurant where Type='MEAL' ORDER BY itemName ASC ";
-//            ps=conn.prepareStatement(sql);
-//            result= ps.executeQuery();
-
-            int currentIndex1 = 0;
-            while(currentIndex1 < fillComboList1.size()) {
-                comboBox_Dish.addItem(fillComboList1.get(currentIndex1).getItemName());
-                currentIndex1++;
-            }
-//            while(result.next())
-//            {
-//                String name= result.getString("itemName");
-//                comboBox_Dish.addItem(name);
-//
-//            }
-
-            List<Restaurant> fillComboList2 = customerRoomService.FillCombo2();
-//            String sql2 = "SELECT * FROM restaurant where Type='DRINK' ORDER BY itemName ASC";
-//            ps1=conn.prepareStatement(sql2);
-//            result1= ps1.executeQuery();
-
-            int currentIndex2 = 0;
-            while (currentIndex2 < fillComboList2.size()){
-                comboBox_Drink.addItem(fillComboList2.get(currentIndex2).getItemName());
-                currentIndex2 ++;
-            }
-//            while(result1.next())
-//            {
-//                String Dname= result1.getString("itemName");
-//                comboBox_Drink.addItem(Dname);
-//
-//            }
-
-
-
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void FillDishes()
-    {
-//        GetConnection connect=new GetConnection();
-//        Connection conn=connect.getConnection();
-        DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("DISH NAME");
-        model.addColumn("PRICE");
-
-        try {
-            List<Restaurant> dishList = customerRoomService.FillDishes();
-//            String query = "SELECT * FROM restaurant where Type='MEAL'";
-//            Statement st= conn.createStatement();
-//            ResultSet rs= st.executeQuery(query);
-            int currentIndex = 0;
-            while(currentIndex < dishList.size()){
-                model.addRow(new Object[] {
-                        dishList.get(currentIndex).getItemName(),
-                        dishList.get(currentIndex).getPrice(),
-                });
-                currentIndex ++;
-            }
-//            while(rs.next())
-//            {
-//                model.addRow(new Object[] {
-//                        rs.getString("itemName"),
-//                        rs.getString("Price"),
-//
-//                });
-//            }
-//            rs.close();
-//            st.close();
-//            conn.close();
-            table.setModel(model);
-            table.setAutoResizeMode(0);
-            table.getColumnModel().getColumn(0).setPreferredWidth(250);
-            table.getColumnModel().getColumn(1).setPreferredWidth(100);
-
-        }
-
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void FillDrinks()
-    {
-//        GetConnection connect=new GetConnection();
-//        Connection conn=connect.getConnection();
-        DefaultTableModel model2 = new DefaultTableModel();
-        model2.addColumn("DRINK NAME");
-        model2.addColumn("PRICE");
-
-        try {
-            List<Restaurant> drinkList = customerRoomService.FillDrinks();
-//            String query = "SELECT * FROM restaurant where Type='DRINK'";
-//            Statement st= conn.createStatement();
-//            ResultSet rs= st.executeQuery(query);
-            int currentIndex = 0;
-            while(currentIndex < drinkList.size()){
-                model2.addRow(new Object[] {
-                        drinkList.get(currentIndex).getItemName(),
-                        drinkList.get(currentIndex).getPrice(),
-                });
-                currentIndex ++;
-            }
-//            while(rs.next())
-//            {
-//                model2.addRow(new Object[] {
-//                        rs.getString("itemName"),
-//                        rs.getString("Price"),
-//
-//                });
-//            }
-//            rs.close();
-//            st.close();
-//            conn.close();
-            table_1.setModel(model2);
-            table_1.setAutoResizeMode(0);
-            table_1.getColumnModel().getColumn(0).setPreferredWidth(250);
-            table_1.getColumnModel().getColumn(1).setPreferredWidth(100);
-
-        }
-
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void calculateAmount()
-    {
-//        GetConnection connect=new GetConnection();
-//        Connection conn=connect.getConnection();
-//        PreparedStatement ps = null;
-//        ResultSet result = null;
-//        PreparedStatement ps1 = null;
-//        ResultSet result1 = null;
-//        String mealAmount=null;
-//        String drinkAmount=null;
-        String di=(String)comboBox_Dish.getSelectedItem();
-        String dr=(String)comboBox_Drink.getSelectedItem();
-        //System.out.println(di);
-        try {
-            String mealAmount = customerRoomService.calculateAmount(di);
-//            String sql="SELECT Price FROM restaurant WHERE itemName = ?";
-//
-//            ps=conn.prepareStatement(sql);
-//            ps.setString(1, di);
-//            result= ps.executeQuery();
-//            if(result.next())
-//                mealAmount=result.getString(1);
-            meal.setText(mealAmount);
-
-            String drinkAmount = customerRoomService.calculateAmount(dr);
-//            ps1=conn.prepareStatement(sql);
-//            ps1.setString(1, dr);
-//            result1=ps1.executeQuery();
-//            if(result1.next())
-//                drinkAmount=result1.getString(1);
-            drink.setText(drinkAmount);
-
-
-            //System.out.println(result.getInt("Price"));
-            //System.out.println(result);
-            int total=Integer.parseInt(mealAmount)+Integer.parseInt(drinkAmount);
-            // System.out.println(total);
-            totalA.setText(Integer.toString(total));
-
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    public void addToDatabase()
-    {
-//        PreparedStatement ps = null;
-//        ResultSet result = null;
-        try {
-            customerRoomService.addToDatabase(name.getText(), addr.getText(), phone.getText(), comboBox_Dish.getSelectedItem().toString(), comboBox_Drink.getSelectedItem().toString(), totalA.getText(), "0");
-//            GetConnection connect=new GetConnection();
-//            Connection conn=connect.getConnection();
-//            ps=conn.prepareStatement("INSERT INTO restaurantcustomer (custName,custAddr,Phone,Meal,Drink,Price,status) VALUES (?,?,?,?,?,?,?)");
-//            ps.setString(1,name.getText());
-//            ps.setString(2,addr.getText());
-//            ps.setString(3,phone.getText());
-//            ps.setString(4,comboBox_Dish.getSelectedItem().toString());
-//            ps.setString(5,comboBox_Drink.getSelectedItem().toString());
-//            ps.setString(6,totalA.getText());
-//            ps.setString(7,"0");
-
-//            if(ps.executeUpdate()>0)
-//            {
-//                JOptionPane.showMessageDialog(null, "New Customer Added");
-//            }
-            JOptionPane.showMessageDialog(null, "New Customer Added");
-
-
-        }
-
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
-        }
-    }
-
-    public void checkOut()
-    {
-//        PreparedStatement ps = null;
-//        ResultSet result = null;
-        try {
-            customerRoomService.checkOut(name.getText());
-//            GetConnection connect=new GetConnection();
-//            Connection conn=connect.getConnection();
-//            ps=conn.prepareStatement("UPDATE restaurantcustomer SET status = 1 where custName=?");
-//            ps.setString(1,name.getText());
-
-
-//            if(ps.executeUpdate()>0)
-//            {
-//                JOptionPane.showMessageDialog(null, "Checked out Successfully");
-//            }
-            JOptionPane.showMessageDialog(null, "Checked out Successfully");
-
-
-        }
-
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
-        }
     }
 }

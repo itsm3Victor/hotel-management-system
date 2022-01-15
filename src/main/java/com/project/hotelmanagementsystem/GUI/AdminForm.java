@@ -1,6 +1,5 @@
 package com.project.hotelmanagementsystem.GUI;
 
-import com.project.hotelmanagementsystem.Entity.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -16,7 +15,6 @@ public class AdminForm extends JFrame {
     @Autowired
     private ApplicationContext context;
     private JPanel contentPane;
-    Customer cust = new Customer();
 
     /**
      * Launch the application.
@@ -46,10 +44,10 @@ public class AdminForm extends JFrame {
         contentPane.setLayout(null);
 
         JButton btnDelete = new JButton("MANAGE ROOMS");
-        btnDelete.setIcon(new ImageIcon("images\\bed (1).png"));
+        btnDelete.setIcon(new ImageIcon("src\\main\\resources\\images\\bed (1).png"));
         btnDelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AddRooms ar = context.getBean(AddRooms.class);
+                ManageRooms ar = context.getBean(ManageRooms.class);
                 //RestaurantForm rf = new RestaurantForm();
                 ar.setVisible(true);
                 ar.pack();
@@ -63,10 +61,10 @@ public class AdminForm extends JFrame {
         contentPane.add(btnDelete);
 
         JButton btnNewButton_2 = new JButton("MANAGE DISHES");
-        btnNewButton_2.setIcon(new ImageIcon("images\\dining (2).png"));
+        btnNewButton_2.setIcon(new ImageIcon("src\\main\\resources\\images\\dining (2).png"));
         btnNewButton_2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AddDishes ad = context.getBean(AddDishes.class);
+                ManageDishes ad = context.getBean(ManageDishes.class);
                 ad.setVisible(true);
                 ad.pack();
                 ad.setLocationRelativeTo(null);
@@ -79,7 +77,7 @@ public class AdminForm extends JFrame {
         contentPane.add(btnNewButton_2);
 
         JLabel label = new JLabel("");
-        label.setIcon(new ImageIcon("images\\user (1).png"));
+        label.setIcon(new ImageIcon("src\\main\\resources\\images\\user (1).png"));
         label.setBounds(0, 0, 253, 221);
         contentPane.add(label);
 
@@ -96,7 +94,7 @@ public class AdminForm extends JFrame {
         JButton btnBack = new JButton("BACK");
         btnBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                SecondPage sp = context.getBean(SecondPage.class);
+                Dashboard sp = context.getBean(Dashboard.class);
                 sp.setVisible(true);
                 sp.pack();
                 sp.setLocationRelativeTo(null);

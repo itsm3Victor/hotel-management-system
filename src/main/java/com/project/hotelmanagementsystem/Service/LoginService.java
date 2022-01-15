@@ -1,5 +1,5 @@
 package com.project.hotelmanagementsystem.Service;
 
-public interface AAService {
+public interface LoginService {
     String loginVerificationService(String username, String password);
 }
