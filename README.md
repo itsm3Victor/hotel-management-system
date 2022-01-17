@@ -1,11 +1,10 @@
 # hotel-management-system
 cbse project implementation
 
-- Try to run on your side to test if it can run normally.
+- Aware to the port number of the database
+The port number can be change at the application.properties file
 
-- Things to be noted
-  1. Aware to the port number of the database
-  The port number can be change at the application.properties file.
+- All of the class GUI is copy pasted from the original project, thus some of the file name and naming convention may be a lot messy.
+One of the example is CustomerRestaurant java class file showing the CustomerRoom logic and vice versa.
 
-  2. When updating dish and room, after finishing editing on a row, click on other row then click back only click the update button.
-  - If update straight away will not be able to update the row. 
+- Only the business logic is modified into services and repository, and added the Entity part (Still progressing on it). And the modified parts at the GUI are commented out.
